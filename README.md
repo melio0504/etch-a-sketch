@@ -1,2 +1,7 @@
-# etch-a-sketch
-A website that lets you create art with Etch A Sketch from mechanical drawing to a digital drawing! Isn't that interesting?
+# Etch A Sketch
+
+## About
+
+<!-- ![Website Screenshot](assets/screenshot.png) -->
+
+*Work In Progress*
