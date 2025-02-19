@@ -39,7 +39,7 @@ document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
 
 
-// To enable touch if using smartphone
+// To enable touch if using smartphones
 let ongoingTouches = [];
 
 grid.addEventListener('touchstart', handleTouchStart);

@@ -5,17 +5,19 @@
 }
 
 :root {
-    --font-style: "Open Sans", serif;
+    --primary-font-style: "Pixelify Sans", serif;
+    --secondary-font-style: "Open Sans", serif;
     --font-light: #fcf5f5;
     --background-color: #faf8f6;
     --secondary-color: #0a0b00;
 }
 
-body, h1 {
+body,
+h1 {
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
-    font-family: var(--font-style);
+    font-family: var(--primary-font-style);
 }
 
 .container {
@@ -33,6 +35,7 @@ body, h1 {
 }
 
 .title {
+    font-family: var(--primary-font-style);
     text-align: center;
     font-size: 1.5rem;
 }
@@ -107,6 +110,7 @@ input[type='color'] {
 }
 
 footer {
+   font-family: var(--secondary-font-style);
     position: fixed;
     bottom: 0;
     display: flex;
