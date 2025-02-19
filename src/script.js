@@ -38,6 +38,15 @@ let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
 
+
+// To enable touch if using smartphone
+let ongoingTouches = [];
+
+grid.addEventListener('touchstart', handleTouchStart);
+grid.addEventListener('touchmove', handleTouchMove);
+grid.addEventListener('touchend', handleTouchEnd);
+grid.addEventListener('touchcancel', handleTouchCancel);
+
 function changeSize(value) {
   setCurrentSize(value)
   updateSizeValue(value)
@@ -66,6 +75,8 @@ function setupGrid(size) {
     gridElement.classList.add('grid-element')
     gridElement.addEventListener('mouseover', changeColor)
     gridElement.addEventListener('mousedown', changeColor)
+    gridElement.addEventListener('touchmove', changeColorTouch)
+    gridElement.addEventListener('touchstart', changeColorTouch)
     grid.appendChild(gridElement)
   }
 };
@@ -78,6 +89,55 @@ function changeColor(e) {
         e.target.style.backgroundColor = '#faf8f6'
     }
 };
+
+function changeColorTouch(e) {
+    e.preventDefault(); 
+
+    for (let i = 0; i < ongoingTouches.length; i++) {
+        const touch = ongoingTouches[i];
+        const touchTarget = document.elementFromPoint(touch.pageX, touch.pageY);
+        
+        if (touchTarget && touchTarget.classList.contains('grid-element')) {
+            if (currentMode === 'color') {
+                touchTarget.style.backgroundColor = currentColor;
+            } else if (currentMode === 'eraser') {
+                touchTarget.style.backgroundColor = '#faf8f6';
+            }
+        }
+    }
+};
+
+function handleTouchStart(e) {
+    e.preventDefault(); 
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        ongoingTouches.push(e.changedTouches[i]);
+    }
+    changeColorTouch(e);
+}
+
+function handleTouchMove(e) {
+    e.preventDefault();
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        ongoingTouches[i] = e.changedTouches[i]; 
+    }
+    changeColorTouch(e);
+}
+
+function handleTouchEnd(e) {
+    e.preventDefault();
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        const index = ongoingTouches.findIndex(touch => touch.identifier === e.changedTouches[i].identifier);
+        if (index >= 0) ongoingTouches.splice(index, 1);
+    }
+}
+
+function handleTouchCancel(e) {
+    e.preventDefault();
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        const index = ongoingTouches.findIndex(touch => touch.identifier === e.changedTouches[i].identifier);
+        if (index >= 0) ongoingTouches.splice(index, 1);
+    }
+}
 
 function activateButton(newMode) {
     if (currentMode === 'color') {

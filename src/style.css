@@ -21,6 +21,7 @@ body, h1 {
 .container {
     display: flex;
     gap: 5rem;
+    flex-wrap: wrap;
     justify-content: center;
     margin: 5rem;
 }
@@ -41,6 +42,7 @@ body, h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex: 0 auto;
     gap: 2rem;
     width: 50%;
     margin-top: 1rem;
@@ -104,27 +106,6 @@ input[type='color'] {
     user-select: none;
 }
 
-@media only screen and (max-width: 600px) {
-    .cointainer {
-      display: flex;
-      gap: 50px;
-    }
-  
-    .settings {
-      width: 150px;
-      gap: 16px;
-    }
-  
-    .size-value {
-      margin-bottom: -4px;
-    }
-  
-    .grid {
-      width: 250px;
-      height: 250px;
-    }
-  }
-
 footer {
     position: fixed;
     bottom: 0;
@@ -141,4 +122,33 @@ footer {
 .github-logo {
     width: 30px;
     height: 30px;
+}
+
+/* Responsive Design hopefully :> */
+@media only screen and (max-width: 700px) {
+  .cointainer {
+    margin: 0;
+  }
+
+  .title, button, input {
+    font-size: 1rem;
+  }
+
+  .settings {
+    width: 150px;
+    gap: 16px;
+  }
+
+  .size-value {
+    margin-bottom: -4px;
+  }
+
+  .grid {
+    width: 300px;
+    height: 300px;
+  }
+
+  footer {
+    position: static;
+  }
 }
