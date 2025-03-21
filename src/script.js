@@ -91,11 +91,11 @@ function changeColor(e) {
 };
 
 function changeColorTouch(e) {
-    e.preventDefault(); 
-
     for (let i = 0; i < ongoingTouches.length; i++) {
         const touch = ongoingTouches[i];
-        const touchTarget = document.elementFromPoint(touch.pageX, touch.pageY);
+        const touchX = touch.pageX + window.scrollX;
+        const touchY = touch.pageY + window.scrollY;
+        const touchTarget = document.elementFromPoint(touchX, touchY);
         
         if (touchTarget && touchTarget.classList.contains('grid-element')) {
             if (currentMode === 'color') {
