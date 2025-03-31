@@ -91,52 +91,48 @@ function changeColor(e) {
 };
 
 function changeColorTouch(e) {
-    for (let i = 0; i < ongoingTouches.length; i++) {
-        const touch = ongoingTouches[i];
-        const touchX = touch.pageX + window.scrollX;
-        const touchY = touch.pageY + window.scrollY;
-        const touchTarget = document.elementFromPoint(touchX, touchY);
+    e.preventDefault();
+    const rect = grid.getBoundingClientRect();
+    
+    for (let i = 0; i < e.touches.length; i++) {
+        const touch = e.touches[i];
+        const touchX = touch.clientX - rect.left;
+        const touchY = touch.clientY - rect.top;
         
-        if (touchTarget && touchTarget.classList.contains('grid-element')) {
-            if (currentMode === 'color') {
-                touchTarget.style.backgroundColor = currentColor;
-            } else if (currentMode === 'eraser') {
-                touchTarget.style.backgroundColor = '#faf8f6';
+        if (touchX >= 0 && touchX <= rect.width && touchY >= 0 && touchY <= rect.height) {
+            const gridSize = currentSize;
+            const cellSize = rect.width / gridSize;
+            const cellX = Math.floor(touchX / cellSize);
+            const cellY = Math.floor(touchY / cellSize);
+            const cellIndex = cellY * gridSize + cellX;
+            
+            const cells = grid.querySelectorAll('.grid-element');
+            if (cellIndex >= 0 && cellIndex < cells.length) {
+                const cell = cells[cellIndex];
+                if (currentMode === 'color') {
+                    cell.style.backgroundColor = currentColor;
+                } else if (currentMode === 'eraser') {
+                    cell.style.backgroundColor = '#faf8f6';
+                }
             }
         }
     }
-};
+}
 
 function handleTouchStart(e) {
-    e.preventDefault(); 
-    for (let i = 0; i < e.changedTouches.length; i++) {
-        ongoingTouches.push(e.changedTouches[i]);
-    }
     changeColorTouch(e);
 }
 
 function handleTouchMove(e) {
-    e.preventDefault();
-    for (let i = 0; i < e.changedTouches.length; i++) {
-        ongoingTouches[i] = e.changedTouches[i]; 
-    }
     changeColorTouch(e);
 }
 
 function handleTouchEnd(e) {
-    e.preventDefault();
-    for (let i = 0; i < e.changedTouches.length; i++) {
-        const index = ongoingTouches.findIndex(touch => touch.identifier === e.changedTouches[i].identifier);
-        if (index >= 0) ongoingTouches.splice(index, 1);
-    }
+
 }
 
 function handleTouchCancel(e) {
-    e.preventDefault();
-    for (let i = 0; i < e.changedTouches.length; i++) {
-        const index = ongoingTouches.findIndex(touch => touch.identifier === e.changedTouches[i].identifier);
-        if (index >= 0) ongoingTouches.splice(index, 1);
-    }
+
 }
 
 function activateButton(newMode) {
