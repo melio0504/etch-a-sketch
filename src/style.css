@@ -110,6 +110,9 @@ input[type='color'] {
     height: 500px;
     outline: 25px darkred solid;
     border-radius: 25px;
+    position: relative; 
+    touch-action: none;
+    overflow: hidden;
 }
 
 .grid-element {
