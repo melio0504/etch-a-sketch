@@ -18,8 +18,9 @@ colorPicker.oninput = (e) => setCurrentColor(e.target.value);
 colorBtn.onclick = () => setCurrentMode('color');
 eraserBtn.onclick = () => setCurrentMode('eraser');
 clearBtn.onclick = () => reloadGrid();
-sizeSlider.onmousemove = (e) => updateSizeValue(e.target.value);
-sizeSlider.onchange = (e) => changeSize(e.target.value);
+sizeSlider.addEventListener('input', (e) => {
+  changeSize(Number(e.target.value));
+});
 
 function setCurrentColor(newColor) {
   currentColor = newColor
@@ -31,13 +32,18 @@ function setCurrentMode(newMode) {
 };
 
 function setCurrentSize(newSize) {
-  currentSize = newSize
-};
+  currentSize = Number(newSize);
+}
 
 let mouseDown = false;
-document.body.onmousedown = () => (mouseDown = true);
-document.body.onmouseup = () => (mouseDown = false);
 
+grid.addEventListener('mousedown', () => {
+  mouseDown = true;
+});
+
+document.addEventListener('mouseup', () => {
+  mouseDown = false;
+});
 
 // To enable touch if using smartphones
 let ongoingTouches = [];
@@ -48,10 +54,12 @@ grid.addEventListener('touchend', handleTouchEnd);
 grid.addEventListener('touchcancel', handleTouchCancel);
 
 function changeSize(value) {
-  setCurrentSize(value)
-  updateSizeValue(value)
-  reloadGrid()
-};
+  const size = Number(value);
+
+  setCurrentSize(size);
+  updateSizeValue(size);
+  reloadGrid();
+}
 
 function updateSizeValue(value) {
   sizeValue.innerHTML = `${value} x ${value}`
